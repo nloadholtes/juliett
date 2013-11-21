@@ -38,6 +38,9 @@ class MissingCoverage(Plugin):
     def findRoots(self):
         roots = []
         #magic!
+        #get the first path
+        #get the next path
+        
         return roots
 
     def main(self):
