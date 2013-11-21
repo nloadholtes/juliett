@@ -17,8 +17,31 @@ from nose.failure import Failure
 from nose.util import isclass, isgenerator, transplant_func, transplant_class
 import random
 import unittest
+import pickle
 
 log = logging.getLogger(__name__)
 
+
 class MissingCoverage(Plugin):
-    pass
+    name = "missing_coverage"
+
+    def readCoverageData(self, location=None):
+        if not location:
+            location = "./"
+        with open(location + ".coverage", "rb") as f:
+            rawdata = pickle.load(f)
+            self.locations = rawdata["lines"].keys()
+
+    def scanForAllModules(self, location):
+        pass
+
+    def findRoots(self):
+        roots = []
+        #magic!
+        return roots
+
+    def main(self):
+        self.readCoverageData()
+        #Find roots
+
+        self.scanForAllModules()
