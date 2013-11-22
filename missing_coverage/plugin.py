@@ -35,11 +35,12 @@ class MissingCoverage(Plugin):
     def scanForAllModules(self, location):
         pass
 
-    def findRoots(self):
+    def findRoots(self, locs=None):
         roots = []
         #magic!
         #get the first path
-        locs = list(self.locations)
+        if locs is None:
+            locs = list(self.locations)
         first = locs.pop(0)
         #get the next path
         for x in range(0, len(locs)):
@@ -52,7 +53,6 @@ class MissingCoverage(Plugin):
                     roots.append(first[0:y])
                     break
             first = second
-        
         return roots
 
     def main(self):
