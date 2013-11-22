@@ -40,6 +40,12 @@ class TestMissingCoverage:
         assert_equals(2, len(results))
         assert_equals(["/path/to/another/project/first", "/a/b/c"], results)
 
+    def test_findRoots_one_root(self):
+        self.mc.locations = ["/path/to/another/project/first/d.py"]
+        results = self.mc.findRoots()
+        print(results)
+        assert_equals(1, len(results))
+        assert_equals(["/path/to/another/project/first"], results)
 
 if __name__ == '__main__':
     unittest.main()

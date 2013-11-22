@@ -41,20 +41,22 @@ class MissingCoverage(Plugin):
         #get the first path
         if locs is None:
             locs = list(self.locations)
+            if len(locs) == 0:
+                return roots
 
         def _condense(locs):
             #get the next path
             results = []
             first = locs.pop(0)
+            first_l = first.split("/")[:-1]
+            results.append("/".join(first_l))
             for x in range(0, len(locs)):
                 second = locs.pop(0)
-                first_l = first.split("/")[:-1]
                 second_l = second.split("/")[:-1]
                 print("f: %s ---- s: %s " % (first, second))
                 for y in xrange(1, len(first_l)):
                     if first_l[y] != second_l[y]:
                         if y == 1:
-                            results.append("/".join(first_l))
                             results.append("/".join(second_l))
                         else:
                             results.append("/".join(first_l[0:y]))
@@ -62,6 +64,8 @@ class MissingCoverage(Plugin):
                 first = second
             return results
         roots = list(set(_condense(locs)))
+        if len(roots) > 1:
+            roots = list(set(_condense(roots)))
         return roots
 
     def main(self):
