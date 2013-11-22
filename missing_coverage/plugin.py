@@ -39,7 +39,19 @@ class MissingCoverage(Plugin):
         roots = []
         #magic!
         #get the first path
+        locs = list(self.locations)
+        first = locs.pop(0)
         #get the next path
+        for x in range(0, len(locs)):
+            second = locs.pop(0)
+            first = '/'.join(first.split("/")[:-1])
+            second = '/'.join(second.split("/")[:-1])
+            print("f: %s ---- s: %s " % (first, second))
+            for y in xrange(0, len(first)):
+                if first[y] != second[y]:
+                    roots.append(first[0:y])
+                    break
+            first = second
         
         return roots
 

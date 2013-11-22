@@ -16,7 +16,7 @@ class TestMissingCoverage:
         self.mc.locations = TEST_PATH_1
         results = self.mc.findRoots()
         assert_equals(1, len(results))
-        assert_equals("/path/to/the/project", results[0])
+        assert_equals("/path/to/the/project/", results[0])
 
 
 if __name__ == '__main__':
