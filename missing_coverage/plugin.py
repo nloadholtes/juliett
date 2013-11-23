@@ -70,6 +70,8 @@ class MissingCoverage(Plugin):
                         else:
                             results.append("/".join(first_l[0:y]))
                         break
+                if len(results) == 0:
+                    results.append("/".join(shorter))
                 first = second
             return results
         roots = list(set(_condense(locs)))
