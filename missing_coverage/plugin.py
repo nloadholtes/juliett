@@ -58,10 +58,14 @@ class MissingCoverage(Plugin):
                     second_l = second_l[:-1]
 
                 print("f: %s ---- s: %s " % (first, second))
-                for y in xrange(1, len(first_l)):
+                if len(first_l) > len(second_l):
+                    shorter = second_l
+                else:
+                    shorter = first_l
+                for y in xrange(1, len(shorter)):
                     if first_l[y] != second_l[y]:
                         if y == 1:
-                            results.append("/".join(second_l))
+                            results.append("/".join(shorter))
                         else:
                             results.append("/".join(first_l[0:y]))
                         break
