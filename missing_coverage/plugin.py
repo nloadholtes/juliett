@@ -50,13 +50,13 @@ class MissingCoverage(Plugin):
             first_l = first.split("/")
             if first.endswith(".py"):
                 first_l = first_l[:-1]
-            results.append("/".join(first_l))
+            if len(locs) == 0:
+                results.append("/".join(first_l))
             for x in range(0, len(locs)):
                 second = locs.pop(0)
                 second_l = second.split("/")
                 if second.endswith(".py"):
                     second_l = second_l[:-1]
-
                 print("f: %s ---- s: %s " % (first, second))
                 if len(first_l) > len(second_l):
                     shorter = second_l
@@ -65,7 +65,8 @@ class MissingCoverage(Plugin):
                 for y in xrange(1, len(shorter)):
                     if first_l[y] != second_l[y]:
                         if y == 1:
-                            results.append("/".join(shorter))
+                            results.append("/".join(first_l))
+                            results.append("/".join(second_l))
                         else:
                             results.append("/".join(first_l[0:y]))
                         break
