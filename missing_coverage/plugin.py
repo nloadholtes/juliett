@@ -45,14 +45,18 @@ class MissingCoverage(Plugin):
                 return roots
 
         def _condense(locs):
-            #get the next path
             results = []
             first = locs.pop(0)
-            first_l = first.split("/")[:-1]
+            first_l = first.split("/")
+            if first.endswith(".py"):
+                first_l = first_l[:-1]
             results.append("/".join(first_l))
             for x in range(0, len(locs)):
                 second = locs.pop(0)
-                second_l = second.split("/")[:-1]
+                second_l = second.split("/")
+                if second.endswith(".py"):
+                    second_l = second_l[:-1]
+
                 print("f: %s ---- s: %s " % (first, second))
                 for y in xrange(1, len(first_l)):
                     if first_l[y] != second_l[y]:
