@@ -43,5 +43,15 @@ class TestMissingCoverage:
         assert_equals(1, len(results))
         assert_equals(["/path/to/another/project/first"], results)
 
+    def test_scanForAllModules_one_root(self):
+        self.mc.locations = ["/path/to/another/project/first/d.py"]
+        roots = "/path/to/another/project/first"
+        output = self.mc.scanForAllModules(roots)
+        assert_equals(['/path/to/another/project/first/d.py',
+            "/path/to/another/project/first/a.py",
+            "/path/to/another/project/first/b.py"],
+            output)
+
+
 if __name__ == '__main__':
     unittest.main()

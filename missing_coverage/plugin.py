@@ -37,8 +37,6 @@ class MissingCoverage(Plugin):
 
     def findRoots(self, locs=None):
         roots = []
-        #magic!
-        #get the first path
         if locs is None:
             locs = list(self.locations)
             if len(locs) == 0:
@@ -82,5 +80,6 @@ class MissingCoverage(Plugin):
     def main(self):
         self.readCoverageData()
         #Find roots
+        roots = self.findRoots()
 
-        self.scanForAllModules()
+        self.scanForAllModules(roots)
