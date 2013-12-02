@@ -3,6 +3,7 @@ import unittest
 from missing_coverage import MissingCoverage
 from nose.plugins import PluginTester
 from nose.tools import assert_equals
+from mock import patch
 
 
 TEST_PATH_1 = ["/path/to/the/project/first/a.py",
@@ -43,9 +44,12 @@ class TestMissingCoverage:
         assert_equals(1, len(results))
         assert_equals(["/path/to/another/project/first"], results)
 
-    def test_scanForAllModules_one_root(self):
+    @patch("missing_coverage.plugin.os.walk")
+    def test_scanForAllModules_one_root(self, mock_os):
         self.mc.locations = ["/path/to/another/project/first/d.py"]
-        roots = "/path/to/another/project/first"
+        roots = ["/path/to/another/project/first"]
+        mock_os.return_value = [("/path/to/another/project/first/", [],
+            ["d.py", "a.py", "b.py"])]
         output = self.mc.scanForAllModules(roots)
         assert_equals(['/path/to/another/project/first/d.py',
             "/path/to/another/project/first/a.py",
