@@ -18,6 +18,7 @@ from nose.util import isclass, isgenerator, transplant_func, transplant_class
 import random
 import unittest
 import pickle
+import os
 
 log = logging.getLogger(__name__)
 
@@ -32,8 +33,14 @@ class MissingCoverage(Plugin):
             rawdata = pickle.load(f)
             self.locations = rawdata["lines"].keys()
 
-    def scanForAllModules(self, location):
-        pass
+    def scanForAllModules(self, locations):
+        output = []
+        for location in locations:
+            for (path, dirs, files) in os.walk(location):
+                for f in files:
+                    if ".py" == os.path.splitext(f)[1]:
+                        output.append(os.path.join(path, f))
+        return output
 
     def findRoots(self, locs=None):
         roots = []
