@@ -56,6 +56,22 @@ class TestMissingCoverage:
             "/path/to/another/project/first/b.py"],
             output)
 
+    @patch("missing_coverage.plugin.os.walk")
+    def test_scanForAllModules_two_root(self, mock_os):
+        self.mc.locations = ["/path/to/another/project/first/d.py",
+            "/path/to/the/project/second/nested/c.py"]
+        roots = ["/path/to/another/project/first"]
+        mock_os.return_value = [("/path/to/another/project/first/", [],
+            ["d.py", "a.py", "b.py"]),
+            ("/path/to/another/project/second/", [], ["e.py", "f.py", "g.py"])]
+        output = self.mc.scanForAllModules(roots)
+        assert_equals(['/path/to/another/project/first/d.py',
+            "/path/to/another/project/first/a.py",
+            "/path/to/another/project/first/b.py",
+            "/path/to/another/project/second/e.py",
+            "/path/to/another/project/second/f.py",
+            "/path/to/another/project/second/g.py"],
+            output)
 
 if __name__ == '__main__':
     unittest.main()
