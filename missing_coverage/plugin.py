@@ -33,6 +33,14 @@ class MissingCoverage(Plugin):
             rawdata = pickle.load(f)
             self.locations = rawdata["lines"].keys()
 
+    def addModulesToCoverage(self, modules, location=None):
+        if not location:
+            location = "./"
+        with open(location + ".coverage", "r+b") as f:
+            rawdata = pickle.load(f)
+            rawdata["lines"] = modules
+            pickle.dump(rawdata, f, 2)
+            
     def scanForAllModules(self, locations):
         output = []
         for location in locations:

@@ -95,5 +95,16 @@ class TestMissingCoverage:
             "/path/to/another/project/first/lib/g.py"],
             output)
 
+    @patch("missing_coverage.plugin.pickle")
+    def test_addModulesToCoverage(self, mock_pickle):
+        self.mc.locations = ["/path/to/another/project/first/d.py"]
+        modules = ['/path/to/another/project/first/d.py',
+            "/path/to/another/project/first/a.py",
+            "/path/to/another/project/first/b.py"]
+        with patch("__builtin__.open"):
+            self.mc.addModulesToCoverage(modules)
+            mock_pickle.dump.assert_called_once()
+
+
 if __name__ == '__main__':
     unittest.main()
