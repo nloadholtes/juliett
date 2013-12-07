@@ -20,6 +20,11 @@ class TestMissingCoverage:
         assert_equals(1, len(results))
         assert_equals("/path/to/the/project", results[0])
 
+    def test_findRoots_none(self):
+        self.mc.locations = []
+        results = self.mc.findRoots()
+        assert_equals([], results)
+
     def test_findRoots_nested(self):
         self.mc.locations = TEST_PATH_1 + ["/path/to/the/project/first/nested/c.py"]
         results = self.mc.findRoots()
